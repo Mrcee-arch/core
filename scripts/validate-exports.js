@@ -132,6 +132,17 @@ for (const name of expectedTestingExports) {
   }
 }
 
+console.log('\nValidating package metadata export targets in package.json (#56)...');
+const pkg = require('../package.json');
+for (const [subpath, targets] of Object.entries(pkg.exports)) {
+  if (!targets.types || !targets.import || !targets.require) {
+    console.error(`❌ Export "${subpath}" in package.json is missing types, import, or require.`);
+    failed = true;
+  } else {
+    console.log(`✅ Subpath export "${subpath}" metadata is valid.`);
+  }
+}
+
 if (failed) {
   console.error('\n❌ Build validation failed. One or more exports are missing.');
   process.exit(1);

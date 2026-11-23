@@ -39,6 +39,7 @@ It is deliberately stateless and framework-agnostic. It runs in Node, the browse
 - [Installation](#installation)
 - [Quick Start](#quick-start)
 - [Modules](#modules)
+- [Package Exports and Stability](#package-exports-and-stability)
 - [API Reference](#api-reference)
   - [wallet](#wallet)
   - [account](#account)
@@ -124,6 +125,27 @@ if (tx.status === "ok") {
 | `soroban`     | Read/invoke contracts, simulate transactions, contract interaction builder, event decoding, deploy validation |
 | `network`     | Network configuration, circuit breaker, dynamic network switching, network resolution                         |
 | `shared`      | Logging, tracing, caching, configuration, validation, server factory                                          |
+
+---
+
+## Package Exports and Stability
+
+`sorokit-core` exposes documented entrypoints with defined semantic stability expectations:
+
+| Subpath | Tier | Scope |
+| :--- | :--- | :--- |
+| `sorokit-core` (`.`) | **Stable** | Root client, common wallet adapters, result helpers, and core error codes. |
+| `sorokit-core/wallet` | **Stable** | Wallet adapters, connection lifecycle, and transaction signing. |
+| `sorokit-core/account` | **Stable** | Account loading, balances, sequence management, and balance streaming. |
+| `sorokit-core/transaction` | **Stable** | Transaction building, fee estimation, and ledger submission. |
+| `sorokit-core/soroban` | **Stable** | Smart contract invocation, read-only view calls, simulation, and event decoding. |
+| `sorokit-core/network` | **Stable** | Network configuration, passphrase constants, and network resolution. |
+| `sorokit-core/shared` | **Stable** | Address validation, amount formatting, stroop conversion, and mainnet safety limits. |
+| `sorokit-core/testing` | **Testing** | Mock clients (`createMockClient`) and mock wallet adapters (`createMockWalletAdapter`). |
+| `sorokit-core/compliance` | **Stable** | Audit trail recording and compliance report generation. |
+| `sorokit-core/utility` | **Stable** | Standalone address/amount validation and rate limiter utilities. |
+
+Every pull request runs automated export validation (`npm run validate:exports`) to prevent missing symbols or unvetted internal leaks. See the complete [Public Package Export Stability Guide](docs/exports-stability.md) for SemVer policies and deprecation lifecycles.
 
 ---
 

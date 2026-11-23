@@ -96,6 +96,7 @@ export enum SorokitErrorCode {
   RATE_LIMITED = "RATE_LIMITED",
   NETWORK_ERROR = "NETWORK_ERROR",
   INVALID_NETWORK = "INVALID_NETWORK",
+  UNSUPPORTED_NETWORK = "UNSUPPORTED_NETWORK",
   SERVICE_UNAVAILABLE = "SERVICE_UNAVAILABLE",
   OPERATION_TIMEOUT = "OPERATION_TIMEOUT",
   INVALID_CONFIG = "INVALID_CONFIG",
@@ -154,6 +155,7 @@ export function classifyError(code: SorokitErrorCode): SorokitErrorCategory {
     [
       SorokitErrorCode.NETWORK_ERROR,
       SorokitErrorCode.INVALID_NETWORK,
+      SorokitErrorCode.UNSUPPORTED_NETWORK,
       SorokitErrorCode.SERVICE_UNAVAILABLE,
     ].includes(code)
   ) {

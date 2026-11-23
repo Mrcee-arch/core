@@ -597,3 +597,14 @@ export type {
   UpgradeEvent,
   ContractUpgradeDetectionOptions,
 } from "./upgradeDetection";
+
+// ─── Network capability preflight (#54) ────────────────────────────────────────
+export {
+  checkNetworkCapabilities,
+  preflightDeploymentCapabilities,
+  MIN_SOROBAN_PROTOCOL_VERSION,
+} from "./networkCapabilities";
+export type {
+  NetworkCapabilities,
+  NetworkCapabilityCheckOptions,
+} from "./networkCapabilities";

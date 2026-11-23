@@ -20,6 +20,7 @@ import type { ResolvedNetworkConfig } from "../shared/types";
 import type { PreparedContractCall } from "./types";
 import { createHorizonServer, createSorobanServer } from "../shared/serverFactory";
 import { validateDeployConfig } from "./validateDeployConfig";
+import { preflightDeploymentCapabilities } from "./networkCapabilities";
 
 const MAX_WASM_SIZE = 256 * 1024; // 256 KB
 
@@ -28,6 +29,8 @@ export interface BuildContractDeployOptions {
   horizonUrl: string;
   networkConfig: ResolvedNetworkConfig;
   salt?: Buffer;
+  /** Whether to bypass network capability preflight checks (default: false) */
+  skipCapabilityPreflight?: boolean;
 }
 
 /**
@@ -91,6 +94,17 @@ export async function buildContractDeploy(
       SorokitErrorCode.TX_BUILD_FAILED,
       "Invalid WASM format: missing magic bytes"
     );
+  }
+
+  // Preflight network capabilities unless explicitly skipped (#54)
+  if (!options.skipCapabilityPreflight) {
+    const capabilityResult = await preflightDeploymentCapabilities({
+      rpcUrl: options.rpcUrl,
+      networkConfig: options.networkConfig,
+    });
+    if (capabilityResult.status === "error") {
+      return capabilityResult;
+    }
   }
 
   try {
